@@ -13,7 +13,16 @@ const quotes = [
   
     // Get the quoteDisplay div and update its content
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = `<p>"${quote.text}" - <strong>${quote.category}</strong></p>`;
+  
+    // Clear the previous quote
+    quoteDisplay.innerHTML = '';
+  
+    // Create a new paragraph element
+    const quoteParagraph = document.createElement('p');
+    quoteParagraph.textContent = `"${quote.text}" - ${quote.category}`;
+  
+    // Append the new quote to the quoteDisplay div
+    quoteDisplay.appendChild(quoteParagraph);
   }
   
   // Attach the showRandomQuote function to the "Show New Quote" button
@@ -42,5 +51,17 @@ const quotes = [
     } else {
       alert('Please enter both a quote and a category.');
     }
+  }
+  
+  // Dynamically add the new quote to the DOM when the user adds it
+  function addQuoteToDOM(quote) {
+    const quoteDisplay = document.getElementById('quoteDisplay');
+  
+    // Create a new paragraph element
+    const newQuoteParagraph = document.createElement('p');
+    newQuoteParagraph.textContent = `"${quote.text}" - ${quote.category}`;
+  
+    // Append the new quote to the quoteDisplay div
+    quoteDisplay.appendChild(newQuoteParagraph);
   }
   
