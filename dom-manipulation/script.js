@@ -19,11 +19,11 @@ const quotes = [
   // Attach the showRandomQuote function to the "Show New Quote" button
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
   
-  // Display a quote when the page first loads
+  // Display a random quote when the page first loads
   showRandomQuote();
   
-  // Function to add a new quote
-  function addQuote() {
+  // Function to create and add a new quote form
+  function createAddQuoteForm() {
     // Get the input values
     const newQuoteText = document.getElementById('newQuoteText').value;
     const newQuoteCategory = document.getElementById('newQuoteCategory').value;
