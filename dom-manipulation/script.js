@@ -37,9 +37,9 @@ function syncQuotesWithServer(serverQuotes) {
     saveQuotes();
 
     if (hasConflicts) {
-        alert("Conflicts were found and resolved by using server data.");
+        showNotification("Conflicts were found and resolved by using server data.");
     } else {
-        console.log("Quotes successfully synced with server.");
+        showNotification("Quotes synced with server!");
     }
 }
 
@@ -90,6 +90,7 @@ async function addQuote() {
         if (response.ok) {
             const postedQuote = await response.json();
             console.log("Successfully posted quote:", postedQuote);
+            showNotification("New quote successfully posted to server!");
         } else {
             console.error("Failed to post quote to the server:", response.status);
         }
@@ -110,6 +111,17 @@ function displayQuotes() {
     });
 }
 
+// Show notifications for data updates and conflicts
+function showNotification(message) {
+    const notificationElement = document.getElementById("notification");
+    notificationElement.textContent = message;
+    notificationElement.style.display = 'block';
+
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+        notificationElement.style.display = 'none';
+    }, 3000);
+}
+
 // Fetch and sync data periodically from the server
 setInterval(fetchQuotesFromServer, 30000);  // Fetch every 30 seconds
-
