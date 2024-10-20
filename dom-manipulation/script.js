@@ -14,26 +14,29 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     localStorage.setItem('quotes', JSON.stringify(quotes));
   }
   
-  // Function to display filtered quotes
+  // Function to display filtered quotes, with random quote logic
   function filterQuotes() {
     const selectedCategory = document.getElementById('categoryFilter').value;
-    
+  
     // Save selected category to Local Storage
     localStorage.setItem('selectedCategory', selectedCategory);
   
-    const filteredQuotes = selectedCategory === 'all'
+    let filteredQuotes = selectedCategory === 'all'
       ? quotes
       : quotes.filter(quote => quote.category === selectedCategory);
   
-    // Display the filtered quotes
-    const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = ''; // Clear the previous quotes
-  
-    filteredQuotes.forEach(quote => {
-      const quoteParagraph = document.createElement('p');
-      quoteParagraph.textContent = `"${quote.text}" - ${quote.category}`;
-      quoteDisplay.appendChild(quoteParagraph);
-    });
+    // If there are filtered quotes, pick one randomly using Math.random
+    if (filteredQuotes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+      const randomQuote = filteredQuotes[randomIndex];
+      
+      // Display the random quote
+      const quoteDisplay = document.getElementById('quoteDisplay');
+      quoteDisplay.innerHTML = `<p>"${randomQuote.text}" - ${randomQuote.category}</p>`;
+    } else {
+      // If no quotes match the filter, display a default message
+      document.getElementById('quoteDisplay').innerHTML = `<p>No quotes available for this category.</p>`;
+    }
   }
   
   // Function to populate the category dropdown dynamically
