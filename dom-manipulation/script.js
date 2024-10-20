@@ -15,7 +15,7 @@ async function fetchQuotesFromServer() {
 // Sync local quotes with server quotes
 function syncQuotesWithServer(serverQuotes) {
     let hasConflicts = false;
-    
+
     serverQuotes.forEach(serverQuote => {
         const localQuote = quotes.find(q => q.id === serverQuote.id);
         if (!localQuote) {
@@ -32,10 +32,10 @@ function syncQuotesWithServer(serverQuotes) {
             localQuote.text = serverQuote.body;
         }
     });
-    
+
     // Update local storage with synced data
     saveQuotes();
-    
+
     if (hasConflicts) {
         alert("Conflicts were found and resolved by using server data.");
     } else {
@@ -49,8 +49,8 @@ function saveQuotes() {
     displayQuotes();
 }
 
-// Function to add a new quote
-function addQuote() {
+// Add new quote and POST it to the server
+async function addQuote() {
     const newQuoteText = document.getElementById("newQuoteText").value;
     const newQuoteCategory = document.getElementById("newQuoteCategory").value;
 
@@ -65,11 +65,37 @@ function addQuote() {
         category: newQuoteCategory
     };
 
+    // Add the new quote locally first
     quotes.push(newQuote);
     saveQuotes();
-    
+
+    // Clear input fields
     document.getElementById("newQuoteText").value = '';
     document.getElementById("newQuoteCategory").value = '';
+
+    // POST the new quote to the server
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: newQuote.text,
+                body: newQuote.text,
+                userId: 1 // Arbitrary user ID
+            })
+        });
+
+        if (response.ok) {
+            const postedQuote = await response.json();
+            console.log("Successfully posted quote:", postedQuote);
+        } else {
+            console.error("Failed to post quote to the server:", response.status);
+        }
+    } catch (error) {
+        console.error("Error posting the quote to the server:", error);
+    }
 }
 
 // Display quotes dynamically
