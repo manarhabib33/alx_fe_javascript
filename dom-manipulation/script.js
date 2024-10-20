@@ -98,8 +98,8 @@ function syncToServer() {
     });
 }
 
-// Periodic Fetch from Server (Simulating updates)
-function fetchFromServer() {
+// Fetch Quotes from Server (Simulating updates)
+function fetchQuotesFromServer() {
     fetch('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.json())
         .then(serverQuotes => {
@@ -131,8 +131,9 @@ function mergeQuotes(localQuotes, serverQuotes) {
 }
 
 // Periodic server check (e.g., every 60 seconds)
-setInterval(fetchFromServer, 60000);
+setInterval(fetchQuotesFromServer, 60000);  // Updated to fetchQuotesFromServer
 
 // Initialize
 populateCategories();
 filterQuotes();
+
